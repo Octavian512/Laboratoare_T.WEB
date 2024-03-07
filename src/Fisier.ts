@@ -18,7 +18,6 @@ const myObject: Interface2 = {
     field5: new Date(),
     field6: 'Value 6',
     field7: 20,
-    textToDisplay: 'Acesta este cardul creat de myObject.'
 };
 export { myObject };
 export {};
