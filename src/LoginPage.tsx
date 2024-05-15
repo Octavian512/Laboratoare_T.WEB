@@ -1,18 +1,11 @@
-// În LoginPage.tsx
-
 import React, { useState, useEffect } from 'react';
 import { Layout, Form, Input, Button, Modal } from 'antd';
 
 const { Header, Content } = Layout;
 
 interface LoginPageProps {
-    handleLogin: (values: FormValues) => void;
-    setSignUpVisible: (visible: boolean) => void; // Adăugăm prop-ul setSignUpVisible
-}
-
-interface FormValues {
-    username: string;
-    password: string;
+    handleLogin: (values: { username: string, password: string }) => void;
+    setSignUpVisible: (visible: boolean) => void;
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ handleLogin, setSignUpVisible }) => {
@@ -21,7 +14,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ handleLogin, setSignUpVisible }) 
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        // Verificăm dacă există informații salvate în localStorage
         const storedUsername = localStorage.getItem('username');
         const storedPassword = localStorage.getItem('password');
         if (storedUsername && storedPassword) {
@@ -37,7 +29,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ handleLogin, setSignUpVisible }) 
             setLoading(false);
             if (username === 'Octavian' && password === 'octavian5') {
                 localStorage.setItem('isLoggedIn', 'true');
-                handleLogin({ username, password });
+                localStorage.setItem('username', username); // Salvăm username-ul în localStorage
+                handleLogin({ username, password }); // Apelăm funcția handleLogin cu valorile username și password
             } else {
                 Modal.error({ title: 'Eroare', content: 'Datele introduse sunt incorecte!' });
             }
@@ -59,7 +52,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ handleLogin, setSignUpVisible }) 
                 <div style={{ width: '300px', background: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.75)' }}>
                     <Form
                         name="login"
-                        initialValues={{ remember: true, username, password }} // Utilizăm valorile stocate în state-ul componentei
                         onFinish={onFinish}
                     >
                         <Form.Item
@@ -90,4 +82,5 @@ const LoginPage: React.FC<LoginPageProps> = ({ handleLogin, setSignUpVisible }) 
         </Layout>
     );
 };
+
 export default LoginPage;
